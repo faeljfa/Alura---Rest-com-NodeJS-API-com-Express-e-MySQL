@@ -7,6 +7,7 @@ const consign = require('consign')
 //importanto a biblioteca body-parser
 const bodyParser = require('body-parser')
 
+
 //exportando o modulo para ser utilizado na aplicação
 module.exports = () => {
     
