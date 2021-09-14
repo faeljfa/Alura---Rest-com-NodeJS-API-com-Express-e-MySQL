@@ -1,0 +1,19 @@
+{
+  "name": "projeto-nodejs-rest",
+  "version": "1.0.0",
+  "description": "Repositório criado para estudo de NODE através de um dos cursos da Alura.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faeljfa/Alura---Rest-com-NodeJS-API-com-Express-e-MySQL.git"
+  },
+  "author": "Rafael Guedes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/faeljfa/Alura---Rest-com-NodeJS-API-com-Express-e-MySQL/issues"
+  },
+  "homepage": "https://github.com/faeljfa/Alura---Rest-com-NodeJS-API-com-Express-e-MySQL#readme"
+}
