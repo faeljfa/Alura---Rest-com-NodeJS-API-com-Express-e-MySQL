@@ -4,5 +4,8 @@ module.exports = app => {
     app.get('/atendimentos', (req, res) => {res.send('Rota de atendimentos via get')})
 
     //Rota para a página de atendimentos via metodo post
-    app.post('/atendimentos', (req, res) => {res.send("Voce está na rota de atendimentos e utilizando post")})
+    app.post('/atendimentos', (req, res) => {
+        console.log(req.body)
+        res.send("Voce está na rota de atendimentos e utilizando post")
+    })
 }
