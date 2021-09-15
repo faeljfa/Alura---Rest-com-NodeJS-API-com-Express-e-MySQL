@@ -1,5 +1,5 @@
 //classe responsável por criar as tabelas em nosso sistema
-class tabelas{
+class Tabelas{
     //iniciando a conexão com o banco de dados sendo executado na index
     init(conexao){
         //trazendo o parametro passado para o escopo da classe
@@ -28,4 +28,4 @@ class tabelas{
     }
 }
 
-module.exports = new tabelas
+module.exports = new Tabelas
