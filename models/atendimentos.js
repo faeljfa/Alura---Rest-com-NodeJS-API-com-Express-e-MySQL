@@ -23,16 +23,15 @@ class Atendimento{
 
         //realiza a inserção no banco de dados
         conexao.query(sql, atendimentoDatado, (erro, resultados) => {
-            //caso haja algum erro, imprime o erro ocorrido
+            //caso haja algum erro, imprime o erro ocorrido informando o status 400 que significa bad equest
             if(erro){
-                res.json(erro)
+                res.status(400).json(erro)
             }else{
-                //imprime o resultado da query caso não haja erro nenhum
-                res.json(resultados.insertId)
+                //imprime o resultado da query caso não haja erro nenhum informando o status 201 q sgnifica que
+                //que o registro foi criado corretamente
+                res.status(201).json(resultados)
             }
         })
-
-
     }
 }
 
