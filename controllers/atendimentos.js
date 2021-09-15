@@ -12,7 +12,7 @@ module.exports = app => {
         const atendimento = req.body
 
         //executando a inserção
-        Atendimento.adiciona(atendimento)
-        res.send("Voce está na rota de atendimentos e utilizando post")
+        Atendimento.adiciona(atendimento, res)
+        //res.send("Voce está na rota de atendimentos e utilizando post")
     })
 }
