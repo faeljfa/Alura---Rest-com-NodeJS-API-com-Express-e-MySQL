@@ -66,7 +66,7 @@ class Atendimento{
             }else{
                 //imprime o resultado da query caso não haja erro nenhum informando o status 201 q significa que
                 //que o registro foi criado corretamente
-                res.status(201).json(resultados)
+                res.status(201).json(atendimento)
             }
         })
         }
@@ -112,33 +112,20 @@ class Atendimento{
         })
     }
 
-    delete(id, res){
+    deleta(id, res){
 
         //definindo a query responsavel por excluir o registro
-        const sql = `DELETE FROM atendimentos WHERE id = ${id}`
+        const sql = 'DELETE FROM atendimentos WHERE id = ?'
 
-        //criando o array contendo as mensagens 
-        const mensagens = [
-            {
-                nome:'sucesso',
-                mensagem:'O ítem foi excluído com sucesso!'
-            },
-            {
-                nome:'erro',
-                mensagem:'Ocorreu um erro ao excluir o registro. Verifique o id e tente novamente!'
-            },
-            
-        ]
-        
         //executa a conexao com o banco de dados e executa a query
-        conexao.query(sql, (erro, resultados, mensagens) => {
+        conexao.query(sql, id, (erro, resultados) => {
 
             //caso haja erro, envia o status 400 e o erro que ocorreu em formato json 
             if(erro){
                 res.status(400).json(erro)
             } else {
                 //caso não de problema, realiza a exclusão e informa o status 200
-                res.status(200).json(mensagens)
+                res.status(200).json(id)
             }
         })
     }
@@ -161,7 +148,7 @@ class Atendimento{
                 res.status(400).json(erro)
             } else {
                 //caso não de problema, retorna o resultado em json e o status 200
-                res.status(200).json(resultados)
+                res.status(200).json(...valores, id)
             }
 
         }

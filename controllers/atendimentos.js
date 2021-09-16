@@ -20,11 +20,11 @@ module.exports = app => {
     })
 
     //Rota para a página de exclusão passando um id
-    app.get('/delete/:id', (req, res) => {
+    app.delete('/atendimentos/:id', (req, res) => {
         //convertendo o parametro enviado para inteiro
         const id = parseInt(req.params.id);
         //realiza a busca
-        Atendimento.delete(id, res)
+        Atendimento.deleta(id, res)
 
     })
 
