@@ -19,6 +19,15 @@ module.exports = app => {
 
     })
 
+    //Rota para a página de exclusão passando um id
+    app.get('/delete/:id', (req, res) => {
+        //convertendo o parametro enviado para inteiro
+        const id = parseInt(req.params.id);
+        //realiza a busca
+        Atendimento.delete(id, res)
+
+    })
+
     //Rota para a página de atendimentos via metodo post
     app.post('/atendimentos', (req, res) => {
         //recebendo o que vem do documento submetido
