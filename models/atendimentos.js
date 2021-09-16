@@ -142,9 +142,30 @@ class Atendimento{
             }
         })
     }
-    update(id, res){
 
-    }
+    altera(id, valores, res){
+
+        //verifica se existe um valor no campo data
+        if(valores.data){
+            //caso exista, converte a data para o formato correto
+            valores.data = moment(valores.data, 'DD/MM/YYYY').format('YYYY-MM-DD HH:MM:SS')
+        }
+        //definindo a query responsavel por excluir o registro
+        const sql = 'UPDATE atendimentos SET ? WHERE id = ?'
+
+        //Realizando a conexao e executando a query definida acima
+        conexao.query(sql, [valores, id], (erro, resultados) => {
+
+            //caso haja erro, envia o status 400 e o erro que ocorreu em formato json 
+            if(erro){
+                res.status(400).json(erro)
+            } else {
+                //caso não de problema, retorna o resultado em json e o status 200
+                res.status(200).json(resultados)
+            }
+
+        }
+    )}
 }
 
 module.exports = new Atendimento

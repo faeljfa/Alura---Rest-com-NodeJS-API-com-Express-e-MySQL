@@ -37,4 +37,17 @@ module.exports = app => {
         Atendimento.adiciona(atendimento, res)
         //res.send("Voce está na rota de atendimentos e utilizando post")
     })
+
+    //Rota para fazer a alteração dos dados em algum registro
+    //patch é o método para fazer update
+    app.patch('/atendimentos/:id', (req, res) => {
+        
+        //convertendo o parametro enviado para inteiro
+        const id = parseInt(req.params.id);
+
+        //pegando os dados para serem alterados
+        const valores = req.body
+
+        Atendimento.altera(id, valores, res)
+    })
 }
