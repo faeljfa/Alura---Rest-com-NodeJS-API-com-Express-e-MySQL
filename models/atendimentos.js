@@ -4,7 +4,7 @@ const moment = require('moment')
 //trazendo a conexao com o banco de dados para ser usada na classe
 const conexao = require('../infraestrutura/conexao')
 
-//classe que vai realzar as oerações no banco de dados
+//classe que vai realizar as oerações no banco de dados
 class Atendimento{
 
     //metodo que faz o insert na tabela de atendimentos. Recebe um atendimento como parametro  

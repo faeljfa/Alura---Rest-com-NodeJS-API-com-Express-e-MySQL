@@ -7,6 +7,10 @@ class Tabelas{
 
         //executando o metodo para criar a tabela atendimentos
         this.criarAtendimentos()
+
+        //executando o metodo para criar a tabela pets
+        this.criarPets()
+
     }
 
     //metodo responsável por criar a tabela no banco de dados caso ainda nao exista
@@ -26,6 +30,18 @@ class Tabelas{
             }
         })
     }
+
+    criarPets(){
+        const query = 'CREATE TABLE IF NOT EXISTS pets (id INT NOT NULL AUTO_INCREMENT, nome VARCHAR(50), caminho varchar(200), PRIMARY KEY(id))';
+        
+        this.conexao.query(query, erro =>{
+            if(erro){
+                console.log(erro)
+            }else{
+                console.log('Tabela criada com sucesso')
+            }
+        })
+    }   
 }
 
 module.exports = new Tabelas
