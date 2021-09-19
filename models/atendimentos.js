@@ -21,7 +21,7 @@ class Atendimento{
         /*validações - inicio*/
         // 1 - validando datas return boolean
         const dataValida = moment(data).isSameOrAfter(dataCriacao)
-console.log(dataValida)
+
         // 2 - cliente com nome valido. verifica se o nome informado possui 5 ou mais caracteres
         const clienteValido = atendimento.cliente.length >= 5
 
