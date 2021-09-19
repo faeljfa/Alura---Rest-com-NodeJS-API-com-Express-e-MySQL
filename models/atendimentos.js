@@ -1,6 +1,9 @@
 //Adicionando a biblioteca moment. Responsável por tranalhar com datas 
 const moment = require('moment')
 
+//buscando o axios para fazer uso da API
+const axios  = require('axios')
+
 //trazendo a conexao com o banco de dados para ser usada na classe
 const conexao = require('../infraestrutura/conexao')
 
@@ -18,7 +21,7 @@ class Atendimento{
         /*validações - inicio*/
         // 1 - validando datas return boolean
         const dataValida = moment(data).isSameOrAfter(dataCriacao)
-
+console.log(dataValida)
         // 2 - cliente com nome valido. verifica se o nome informado possui 5 ou mais caracteres
         const clienteValido = atendimento.cliente.length >= 5
 
@@ -97,16 +100,25 @@ class Atendimento{
         const sql = `SELECT * FROM atendimentos WHERE id = ${id}`
 
         //executa a conexao com o banco de dados e executa a query
-        conexao.query(sql, (erro, resultados) => {
-        
+        conexao.query(sql, async (erro, resultados) => {
+
             //definindo a constante para retornar o resultado em forma de objeto
             const atendimento = resultados[0]
+
+            //Salvando o cpf do cliente
+            const cpf = atendimento.cliente
 
             //caso haja erro, envia o status 400 e o erro que ocorreu em formato json 
             if(erro){
                 res.status(400).json(erro)
             } else {
-                //caso não de problema, retorna o resultado em json e o status 200
+                //fazendo a busca do cliente na API e salvando em um objeto
+                const { data } = await axios.get(`http://localhost:8082/${cpf}`)
+
+                //adicionando resultado da busca no indice clente do atendimento
+                atendimento.cliente = data
+
+                //Realizando o envio do status 200 e do atendimento
                 res.status(200).json(atendimento)
             }
         })
