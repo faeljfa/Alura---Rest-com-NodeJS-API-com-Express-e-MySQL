@@ -32,7 +32,7 @@ class Tabelas{
     }
 
     criarPets(){
-        const query = 'CREATE TABLE IF NOT EXISTS pets (id INT NOT NULL AUTO_INCREMENT, nome VARCHAR(50), caminho varchar(200), PRIMARY KEY(id))';
+        const query = 'CREATE TABLE IF NOT EXISTS pets (id INT NOT NULL AUTO_INCREMENT, nome VARCHAR(50), imagem varchar(200), PRIMARY KEY(id))';
         
         this.conexao.query(query, erro =>{
             if(erro){
