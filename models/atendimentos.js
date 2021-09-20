@@ -7,11 +7,14 @@ const axios  = require('axios')
 //trazendo a conexao com o banco de dados para ser usada na classe
 const conexao = require('../infraestrutura/conexao')
 
+//importando o repositorio
+const repositorio = require("../repositorios/atendimento")
+
 //classe que vai realizar as oerações no banco de dados
 class Atendimento{
 
     //metodo que faz o insert na tabela de atendimentos. Recebe um atendimento como parametro  
-    adiciona(atendimento, res){
+    adiciona(atendimento){
         //Adicionando a data da criação do registro
         const dataCriacao = moment().format('YYYY-MM-DD HH:MM:SS')
 
@@ -49,29 +52,18 @@ class Atendimento{
 
         //caso existam erros
         if(existemErros){
-            res.status(400).json(erros)
-
-            //caso não existam erros, prossegue para a criação do registro
+            //retorna uma new promisse com os erros apresentados
+            return new Promise((resolve, reject) => reject(erros))
         } else {
-
+            //caso não existam erros, prossegue para a criação do registro
             //criando um atendimento com a data
             const atendimentoDatado = {...atendimento, dataCriacao, data}
         
-            //define a query de insercao
-            const sql = 'INSERT INTO Atendimentos SET ? '
-
-            //realiza a inserção no banco de dados
-            conexao.query(sql, atendimentoDatado, (erro, resultados) => {
-            
-            //caso haja algum erro, imprime o erro ocorrido informando o status 400 que significa bad request
-            if(erro){
-                res.status(400).json(erro)
-            }else{
-                //imprime o resultado da query caso não haja erro nenhum informando o status 201 q significa que
-                //que o registro foi criado corretamente
-                res.status(201).json(atendimento)
-            }
-        })
+            return repositorio.adiciona(atendimentoDatado)
+                .then((resultados) => {
+                    const id = resultados.insertId
+                    return res.status(201).json({...atendimento, id})
+                })
         }
     }
 

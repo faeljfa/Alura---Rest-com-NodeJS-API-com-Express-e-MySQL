@@ -1,5 +1,5 @@
-//imporando a model atendimento para que possa ser acrescentados os atendimentos ao banco 
-const Atendimento = require('../models/atendimentos')
+//importando a model atendimento para que possam ser acrescentados os atendimentos ao banco 
+const Atendimento = require('../repositorios/atendimento')
 
 //exportando o módulo para que possa ser utilizado em nossa aplicação.
 module.exports = app => {
@@ -34,8 +34,11 @@ module.exports = app => {
         const atendimento = req.body
 
         //executando a inserção
-        Atendimento.adiciona(atendimento, res)
-        //res.send("Voce está na rota de atendimentos e utilizando post")
+        Atendimento.adiciona(atendimento)
+            .then(atendimentoCadastrado => 
+                res.status(201).json(atendimentoCadastrado)
+            )
+            .catch(erros => res.status(400).json(erros))
     })
 
     //Rota para fazer a alteração dos dados em algum registro

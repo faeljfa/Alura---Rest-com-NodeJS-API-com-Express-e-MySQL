@@ -2,7 +2,7 @@
 const conexao = require('../infraestrutura/conexao')
 
 //importando a funcão que realiza o upload de arquivos
-const uploadDeArquivo = require('../arquivos/upload')
+const uploadDeArquivo = require('../infraestrutura/arquivos/upload')
 
 //Classe que realiza as operações no banco de dados para os pets cadastrados
 class Pet{

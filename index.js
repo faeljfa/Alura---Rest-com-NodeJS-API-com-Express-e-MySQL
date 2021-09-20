@@ -5,7 +5,7 @@ const customExpress = require('./config/customExpress')
 const conexao = require('./infraestrutura/conexao')
 
 //importando o módulo tabelas
-const tabelas = require('./infraestrutura/tabelas')
+const tabelas = require('./infraestrutura/database/tabelas')
 
 //executando a conexão com o banco de dados
 conexao.connect((erro) => {
