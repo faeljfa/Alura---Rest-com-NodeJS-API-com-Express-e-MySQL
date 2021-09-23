@@ -6,7 +6,9 @@ module.exports = app => {
     //Rota para a página de atendimentos via metodo get listando todos os atendimentos
     app.get('/atendimentos', (req, res) => {
         //realiza a busca
-        Atendimento.lista(res)
+        Atendimento.lista()
+            .then(resultados => res.json(resultados))
+            .catch(erros => res.status(400).json(erros))
 
     })
 

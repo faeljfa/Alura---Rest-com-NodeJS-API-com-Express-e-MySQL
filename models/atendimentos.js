@@ -9,47 +9,44 @@ const conexao = require('../infraestrutura/conexao')
 
 //importando o repositorio
 const repositorio = require("../repositorios/atendimento")
-const atendimento = require('../repositorios/atendimento')
 
 //classe que vai realizar as oerações no banco de dados
 class Atendimento{
     
     constructor(){
 
-            /*validações - inicio*/
-            // 1 - validando datas return boolean
-            this.dataValida = ({data, dataCriacao}) => {
-                moment(data).isSameOrAfter(dataCriacao)
+        /*validações - inicio*/
+        // 1 - validando datas return boolean
+        this.dataValida = ({data, dataCriacao}) => {
+            moment(data).isSameOrAfter(dataCriacao)
+        }
+        // 2 - cliente com nome valido. verifica se o nome informado possui 5 ou mais caracteres
+        this.clienteValido = (tamanho) => {
+            tamanho >= 5
+        }
+        //função que realiza a validação
+        this.valida = parametros => this.validacoes.filter(campo => {
+            const { nome } = campo
+            const { parametro } = parametro[nome]
 
-            // 2 - cliente com nome valido. verifica se o nome informado possui 5 ou mais caracteres
-            this.clienteValido = (tamanho) => {
-                tamanho >= 5
-            }
-            //função que realiza a validação
-            this.valida = parametros => this.validacoes.filter(campo => {
-                const { nome } = campo
-                const { parametro } = parametro[nome]
+            return !campo.valido(parametro)
+        })
 
-                return !campo.valido(parametro)
-            })
-
-            //criando o array contendo os possiveis erros 
-            this.validacoes = [
-                {
-                    nome:'data',
-                    valido: this.dataValida,
-                    mensagem:'A data tem que ser maior ou igual ao dia atual'
-                },
-                {
-                    nome:'cliente',
-                    valido: this.clienteValido,
-                    mensagem:'O nome do cliente deve conter 5 ou mais caracteres'
-                },
-                
-            ]
-    
+        //criando o array contendo os possiveis erros 
+        this.validacoes = [
+            {
+                nome:'data',
+                valido: this.dataValida,
+                mensagem:'A data tem que ser maior ou igual ao dia atual'
+            },
+            {
+                nome:'cliente',
+                valido: this.clienteValido,
+                mensagem:'O nome do cliente deve conter 5 ou mais caracteres'
+            },
+            
+        ]
     }
-
     //metodo que faz o insert na tabela de atendimentos. Recebe um atendimento como parametro  
     adiciona(atendimento){
         //Adicionando a data da criação do registro
@@ -89,21 +86,8 @@ class Atendimento{
     }
 
     //metodo que lista os dados que estão garvados no banco
-    lista(res){
-        //definindo a query para realizar a seleção
-        const sql = 'SELECT * FROM atendimentos'
-        
-        //executa a conexao com o banco de dados e executa a query
-        conexao.query(sql, (erro, resultados) => {
-            
-            //caso haja erro, envia o status 400 e o erro que ocorreu em formato json 
-            if(erro){
-                res.status(400).json(erro)
-            } else {
-                //caso não de problema, retorna o resultado em json e o status 200
-                res.status(200).json(resultados)
-            }
-        })
+    lista(){
+        return repositorio.lista()
     }
 
     //método que realiza a busca com algum id passado
