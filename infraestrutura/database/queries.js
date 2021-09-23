@@ -3,6 +3,7 @@ const conexao = require('../conexao')
 
 //constante que recebe o resultado da query executada 
 const executaQuery = (query, parametros = '') => {
+
     //faz o return da Promisse (função assíncrona)
     return new Promise((resolve, reject) =>{
         //conecta e executa a query

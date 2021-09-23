@@ -90,6 +90,15 @@ class Atendimento{
         return repositorio.lista()
     }
 
+    //Método que deleta um unico registro
+    delete(id){
+        return repositorio.delete(id)
+    }
+
+    altera(id, valores){
+        return repositorio.altera(id, valores)
+    }
+
     //método que realiza a busca com algum id passado
     buscaPorId(id, res){
 
@@ -120,48 +129,6 @@ class Atendimento{
             }
         })
     }
-
-    deleta(id, res){
-
-        //definindo a query responsavel por excluir o registro
-        const sql = 'DELETE FROM atendimentos WHERE id = ?'
-
-        //executa a conexao com o banco de dados e executa a query
-        conexao.query(sql, id, (erro, resultados) => {
-
-            //caso haja erro, envia o status 400 e o erro que ocorreu em formato json 
-            if(erro){
-                res.status(400).json(erro)
-            } else {
-                //caso não de problema, realiza a exclusão e informa o status 200
-                res.status(200).json(id)
-            }
-        })
-    }
-
-    altera(id, valores, res){
-
-        //verifica se existe um valor no campo data
-        if(valores.data){
-            //caso exista, converte a data para o formato correto
-            valores.data = moment(valores.data, 'DD/MM/YYYY').format('YYYY-MM-DD HH:MM:SS')
-        }
-        //definindo a query responsavel por excluir o registro
-        const sql = 'UPDATE atendimentos SET ? WHERE id = ?'
-
-        //Realizando a conexao e executando a query definida acima
-        conexao.query(sql, [valores, id], (erro, resultados) => {
-
-            //caso haja erro, envia o status 400 e o erro que ocorreu em formato json 
-            if(erro){
-                res.status(400).json(erro)
-            } else {
-                //caso não de problema, retorna o resultado em json e o status 200
-                res.status(200).json(...valores, id)
-            }
-
-        }
-    )}
 }
 
 module.exports = new Atendimento
