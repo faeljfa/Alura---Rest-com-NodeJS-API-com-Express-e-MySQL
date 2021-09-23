@@ -9,9 +9,46 @@ const conexao = require('../infraestrutura/conexao')
 
 //importando o repositorio
 const repositorio = require("../repositorios/atendimento")
+const atendimento = require('../repositorios/atendimento')
 
 //classe que vai realizar as oerações no banco de dados
 class Atendimento{
+    
+    constructor(){
+
+            /*validações - inicio*/
+            // 1 - validando datas return boolean
+            this.dataValida = ({data, dataCriacao}) => {
+                moment(data).isSameOrAfter(dataCriacao)
+
+            // 2 - cliente com nome valido. verifica se o nome informado possui 5 ou mais caracteres
+            this.clienteValido = (tamanho) => {
+                tamanho >= 5
+            }
+            //função que realiza a validação
+            this.valida = parametros => this.validacoes.filter(campo => {
+                const { nome } = campo
+                const { parametro } = parametro[nome]
+
+                return !campo.valido(parametro)
+            })
+
+            //criando o array contendo os possiveis erros 
+            this.validacoes = [
+                {
+                    nome:'data',
+                    valido: this.dataValida,
+                    mensagem:'A data tem que ser maior ou igual ao dia atual'
+                },
+                {
+                    nome:'cliente',
+                    valido: this.clienteValido,
+                    mensagem:'O nome do cliente deve conter 5 ou mais caracteres'
+                },
+                
+            ]
+    
+    }
 
     //metodo que faz o insert na tabela de atendimentos. Recebe um atendimento como parametro  
     adiciona(atendimento){
@@ -20,31 +57,15 @@ class Atendimento{
 
         //Formatando a data da consulta que vai ser inserida no banco
         const data = moment(atendimento.data, 'DD/MM/YYYY').format('YYYY-MM-DD HH:MM:SS')
-        
-        /*validações - inicio*/
-        // 1 - validando datas return boolean
-        const dataValida = moment(data).isSameOrAfter(dataCriacao)
 
-        // 2 - cliente com nome valido. verifica se o nome informado possui 5 ou mais caracteres
-        const clienteValido = atendimento.cliente.length >= 5
-
-        //criando o array contendo os possiveis erros 
-        const validacoes = [
-            {
-                nome:'data',
-                valido: dataValida,
-                mensagem:'A data tem que ser maior ou igual ao dia atual'
-            },
-            {
-                nome:'cliente',
-                valido: clienteValido,
-                mensagem:'O nome do cliente deve conter 5 ou mais caracteres'
-            },
-            
-        ]
+        //parametros a serem validados
+        const parametros = {
+            data: {data, dataCriacao},
+            cliente: {tamanho: atendimento.length}
+        }
 
         //retorna para a constante erros com os campos que não são validos
-        const erros = validacoes.filter(campo => !campo.valido)
+        const erros = this.valida(parametros)
 
         //retorna o tamanho da constante erros. caso haja algum erro, o tamanho vai ser diferente de 0
         const existemErros = erros.length
@@ -60,7 +81,7 @@ class Atendimento{
             const atendimentoDatado = {...atendimento, dataCriacao, data}
         
             return repositorio.adiciona(atendimentoDatado)
-                .then((resultados) => {
+                .then(resultados => {
                     const id = resultados.insertId
                     return res.status(201).json({...atendimento, id})
                 })
